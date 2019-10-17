@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>My first three.js app</title>
+	<style>
+		body { margin: 0; }
+		canvas { width: 100%; height: 100% }
+		#info {
+			position: absolute;
+			top: 10px;
+			width: 100%;
+			text-align: center;
+			z-index: 100;
+			display:block;
+		}
+	</style>	
+</head>
+<body>
+	<div id="info">Description</div>
+	<script src="js/three.js"></script>
+	<script>
+		// var scene = new THREE.Scene();
+		// var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+		// var renderer = new THREE.WebGLRenderer();
+		// renderer.setSize( window.innerWidth, window.innerHeight );
+		// document.body.appendChild( renderer.domElement );
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
+		camera.position.set( 0, 0, 100 );
+		camera.lookAt( 0, 0, 0 );
+
+		var controls = new THREE.OrbitControls( camera, renderer.domElement );
+		//controls.update() must be called after any manual changes to the camera's transform
+		controls.update();
+
+		var scene = new THREE.Scene();
+
+		// var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		// var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+		// var cube = new THREE.Mesh( geometry, material );
+		// scene.add( cube );
+
+		// var material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+		// var geometry = new THREE.Geometry();
+		// geometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+		// geometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
+		// geometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
+
+		// var line = new THREE.Line( geometry, material );
+		var loader = new THREE.FontLoader();
+		loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {
+
+			var geometry = new THREE.TextGeometry( 'Hello three.js!', {
+				font: font,
+				size: 80,
+				height: 5,
+				curveSegments: 12,
+				bevelEnabled: true,
+				bevelThickness: 10,
+				bevelSize: 8,
+				bevelOffset: 0,
+				bevelSegments: 5
+			} );
+			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+		} );
+		// scene.add( line, cube );
+		scene.add( loader );
+		renderer.render( scene, camera );
+
+		// camera.position.z = 5;
+
+		function animate() {
+			requestAnimationFrame( animate );
+			// cube.rotation.x += 0.01;
+			// line.rotation.y += 0.01;
+			// loader.rotation.y += 0.01;
+			controls.update();
+			renderer.render( scene, camera );
+		}
+		// animate();
+	</script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<html>
+<head>
+    <title>threejs - geometry</title>
+
+    <style>
+    	body{
+    		margin: 0;
+    		overflow: hidden;
+    	}
+    </style>
+</head>
+<body>
+    <div style="background-color: white; text-align: center;">
+      <h2><a href="tugas3.html">LINK TUGAS "NAMA 3D"</a></h2>
+    </div>
+    <canvas id="myCanvas"></canvas>
+
+<script src="js/three.js"></script>
+<script src="https://cdn.rawgit.com/chandlerprall/ThreeCSG/master/ThreeCSG.js"></script>
+
+
+<script>
+    var renderer,
+    	scene,
+    	camera,
+    	myCanvas = document.getElementById('myCanvas');
+
+    //RENDERER
+    renderer = new THREE.WebGLRenderer({canvas: myCanvas, antialias: true});
+    renderer.setClearColor(0x000000);
+    // renderer.setClearColor(0xffffff);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    //CAMERA
+    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
+
+    //SCENE
+    scene = new THREE.Scene();
+
+    var geometry1 = new THREE.PlaneGeometry(30, 30);  //PlaneGeometry(width, height, widthSegments, heightSegments)
+    var material = new THREE.MeshBasicMaterial({
+        color: 0xff00000
+    });
+    var mesh1 = new THREE.Mesh(geometry1, material);
+    mesh1.position.set(100,0,-300);
+    scene.add(mesh1);
+
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    var material = new THREE.MeshNormalMaterial({color: 0xff00000});
+    var mesh0 = new THREE.Mesh(geometry, material);
+    mesh0.position.z = -1000;
+    scene.add(mesh0);
+
+    var geometry = new THREE.SphereGeometry(80, 10, 10);  //SphereGeometry(radius, widthSegments, heightSegments, phiStart, phiLength, thetaStart, thetaLength)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2, wireframe:true});
+    var mesh2 = new THREE.Mesh(geometry, material);
+    mesh2.position.set(300,-150,-1000);
+    scene.add(mesh2);
+
+    // var geometry = new THREE.CircleGeometry(100, 100);   //CircleGeometry(radius, segments, thetaStart, thetaLength)
+    var geometry = new THREE.ConeGeometry(50, 70, 50);  //ConeGeometry(radius, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2, emissive:0xF3FFE2, emissiveIntensity:0.5});
+    var mesh3 = new THREE.Mesh(geometry, material);
+    mesh3.position.set(500,-220,-1000);
+    scene.add(mesh3);
+
+    var geometry = new THREE.CylinderGeometry(10, 60, 70);  //CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength)
+    var material = new THREE.MeshLambertMaterial({
+        color: 0xF3FFE2,
+    });
+    var mesh4 = new THREE.Mesh(geometry, material);
+    mesh4.position.set(600,-120,-1200);
+    scene.add(mesh4);
+
+    var geometry = new THREE.DodecahedronGeometry(100, 0);  //DodecahedronGeometry(radius, detail)
+    var material = new THREE.MeshLambertMaterial({
+        color: 0xF3FFE2,
+        map: new THREE.TextureLoader().load('schema.png')
+    });
+    var mesh5 = new THREE.Mesh(geometry, material);
+    mesh5.position.set(600,150,-1200);
+    scene.add(mesh5);
+
+    var geometry = new THREE.IcosahedronGeometry(100, 0);  //IcosahedronGeometry(radius, detail)
+    var material = new THREE.MeshPhongMaterial({color: 0xF3FFE2});
+    var mesh6 = new THREE.Mesh(geometry, material);
+    mesh6.position.set(350,200,-1200);
+    scene.add(mesh6);
+
+    var geometry = new THREE.OctahedronGeometry(110, 0);  //OctahedronGeometry(radius, detail)
+    var material = new THREE.MeshLambertMaterial({
+        color: 0xF3FFE2,
+        map: new THREE.TextureLoader().load('Background-01.jpg')
+    });
+    var mesh7 = new THREE.Mesh(geometry, material);
+    mesh7.position.set(350,200,-1200);
+    scene.add(mesh7);
+
+    var geometry = new THREE.OctahedronGeometry(110, 0);  //OctahedronGeometry(radius, detail)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var mesh8 = new THREE.Mesh(geometry, material);
+    mesh8.position.set(125,250,-1200);
+    scene.add(mesh8);
+
+    var geometry = new THREE.RingGeometry(50, 100, 32);  //RingGeometry(innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart, thetaLength)
+    var material = new THREE.MeshLambertMaterial({
+        color: 0xF3FFE2,
+        map: new THREE.TextureLoader().load('Background-01.jpg')
+    });
+    var mesh9 = new THREE.Mesh(geometry, material);
+    mesh9.position.set(-100,250,-1200);
+    scene.add(mesh9);
+
+    var geometry = new THREE.TetrahedronGeometry(100, 0);  //TetrahedronGeometry(radius, detail)
+    var material = new THREE.MeshStandardMaterial({
+        color: 0xF3FFE2,
+        roughness: 0.5,
+        metalness: 0.5
+    });
+    var mesh10 = new THREE.Mesh(geometry, material);
+    mesh10.position.set(-300,250,-1200);
+    scene.add(mesh10);
+
+    var geometry = new THREE.TorusGeometry(100, 30, 16, 100);  //TorusGeometry(radius, tube, radialSegments, tubularSegments, arc)
+    var material = new THREE.LineDashedMaterial({
+        color: 0xF3FFE2,
+        dashSize: 2,
+        gapSize: 2
+    });
+    var mesh11 = new THREE.Line(geometry, material);
+    mesh11.position.set(-550,200,-1200);
+    scene.add(mesh11);
+
+    var geometry = new THREE.TorusKnotGeometry(70, 30, 100, 100);  //TorusKnotGeometry(radius, tube, tubularSegments, radialSegments, p, q)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var mesh12 = new THREE.Mesh(geometry, material);
+    mesh12.position.set(-600, -100,-1200);
+    scene.add(mesh12);
+
+    var geometry = new THREE.CylinderGeometry(80, 80, 100, 20, 20, true);  //CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, thetaStart, thetaLength)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var mesh13 = new THREE.Mesh(geometry, material);
+    mesh13.position.set(-200, -200,-1200);
+    scene.add(mesh13);
+
+    var color = 0xFFFFFF;
+    var intensity = 1;
+    // const light = new THREE.DirectionalLight(color, intensity);
+    // light.position.set(0, 10, -4);
+    // scene.add(light);
+
+    const light2 = new THREE.DirectionalLight("#fcba03", intensity);
+    light2.position.set(0, -4, 4);
+    scene.add(light2);
+
+    const light3 = new THREE.DirectionalLight("#ad53d4", intensity);
+    light3.position.set(5, -4, 4);
+    scene.add(light3);
+    
+    var x = 0;
+    var y = 0;
+    var heartShape = new THREE.Shape();
+    heartShape.moveTo( x + 25, y + 25 );
+    heartShape.bezierCurveTo( x + 25, y + 25, x + 20, y, x, y );
+    heartShape.bezierCurveTo( x - 30, y, x - 30, y + 35,x - 30,y + 35 );
+    heartShape.bezierCurveTo( x - 30, y + 55, x - 10, y + 77, x + 25, y + 95 );
+    heartShape.bezierCurveTo( x + 60, y + 77, x + 80, y + 55, x + 80, y + 35 );
+    heartShape.bezierCurveTo( x + 80, y + 35, x + 80, y, x + 50, y );
+    heartShape.bezierCurveTo( x + 35, y, x + 25, y + 25, x + 25, y + 25 );
+    var extrudeSettings = { amount: 10, bevelEnabled: true, bevelSegments: 2, steps: 2, bevelSize: 1, bevelThickness: 10 };
+    //var geometry = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );    //ExtrudeGeometry(shapes, options)
+    var geometry = new THREE.ExtrudeGeometry( heartShape, extrudeSettings );          //ShapeGeometry(shapes, options)
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var mesh14 = new THREE.Mesh(geometry, material);
+    mesh14.position.set(100, -200,-1200);
+    scene.add(mesh14);
+
+    var curve = new THREE.SplineCurve3( [
+        new THREE.Vector3( -10, 0, 10 ),
+        new THREE.Vector3( -5, 5, 5 ),
+        new THREE.Vector3( 0, 0, 0 ),
+        new THREE.Vector3( 5, -5, 5 ),
+        new THREE.Vector3( 10, 0, 10 )
+    ] );
+
+
+    var geometry = new THREE.TubeGeometry(
+        curve,  //path
+        20,    //segments
+        2,     //radius
+        8,     //radiusSegments
+        false  //closed
+    );
+    var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var mesh15 = new THREE.Mesh(geometry, material);
+    mesh15.position.set(-30, 0,-150);
+    scene.add(mesh15);
+
+    // renderer.shadowMap.enabled = true;
+    // renderer.shadowMap.type = THREE.PCFShadowMap;
+    
+    // var light = new THREE.SpotLight(0xffffff, 4.0, 3000);
+    // light.position.y = 100;
+    // light.target = mesh1;
+    
+    // light.castShadow = true;
+    // light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 100, 1, 500, 1000 ) );
+    // light.shadow.bias = 0.0001;    
+    // light.shadow.mapSize.width = 2048 * 2;
+    // light.shadow.mapSize.height = 2048 * 2;
+    // scene.add(light);
+    
+    // mesh1.castShadow = true;
+    // mesh3.receiveShadow = true;
+
+
+    //RENDER LOOP
+    render();
+
+    var delta = 0;
+    function render() {
+    	mesh0.rotation.x += 0.01;
+        mesh0.rotation.y -= 0.02;
+
+        mesh1.rotation.x += 0.01;
+        // mesh1.rotation.y += 0.01;
+
+        // mesh2.rotation.x += 0.05;
+        mesh2.rotation.y += 0.05;
+
+        mesh3.rotation.x += 0.05;
+        mesh3.rotation.y += 0.05;
+
+        mesh4.rotation.x -= 0.05;
+        mesh4.rotation.y -= 0.05;
+
+        mesh5.rotation.x += 0.1;
+        mesh5.rotation.y += 0.05;
+
+        mesh6.rotation.x -= 0.05;
+        mesh6.rotation.y -= 0.05;
+
+        mesh7.rotation.x += 0.05;
+        mesh7.rotation.y += 0.05;
+
+        mesh8.rotation.x -= 0.05;
+        mesh8.rotation.y -= 0.05;
+
+        mesh9.rotation.x += 0.05;
+        // mesh9.rotation.y += 0.05;
+
+        mesh10.rotation.x -= 0.05;
+        mesh10.rotation.y -= 0.05;
+
+        mesh11.rotation.x += 0.05;
+        mesh11.rotation.y += 0.05;
+
+        mesh12.rotation.x -= 0.05;
+        mesh12.rotation.y -= 0.05;
+
+        mesh13.rotation.x += 0.05;
+        mesh13.rotation.y += 0.05;
+
+        mesh14.rotation.x -= 0.05;
+        mesh14.rotation.y -= 0.05;
+
+        // mesh15.rotation.x += 0.05;
+        // mesh15.rotation.y += 0.05;  
+        mesh15.rotation.z -= 0.9;  
+
+        delta += 0.1;
+        geometry1.vertices[0].x = -25 + Math.sin(delta) * 50;
+        geometry1.verticesNeedUpdate = true;
+
+    	renderer.render(scene, camera);
+
+    	requestAnimationFrame(render);
+    }
+
+    </script>
+</body>
+</html>

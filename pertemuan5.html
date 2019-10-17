@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script src="https://threejsfundamentals.org/threejs/resources/threejs/r108/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/controls/OrbitControls.js "></script>
+	<script>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera(
+		    60,                                   // Field of view
+		    window.innerWidth/window.innerHeight, // Aspect ratio
+		    0.1,                                  // Near clipping pane
+		    1000                                  // Far clipping pane
+		);
+
+		// camera.position.set(5,5,0);
+		camera.position.set(0,30,50);
+		camera.lookAt(new THREE.Vector3(0,0,0));
+
+		var renderer = new THREE.WebGLRenderer({ antialias: true });
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setClearColor( 0xfff6e6 );
+		// Enable shadow mapping
+		renderer.shadowMap.enabled = true;
+		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+		document.body.appendChild( renderer.domElement );
+
+		// Plane
+		var plane = new THREE.Mesh(
+		    new THREE.PlaneGeometry( 100, 100, 100, 100 ),
+		    new THREE.MeshBasicMaterial( { color: 0x393839, wireframe: true } )
+		    // new THREE.MeshBasicMaterial( { color: 0x44aa88 } )
+		);
+		plane.rotateX(Math.PI/2);
+		scene.add( plane );
+
+		var ambientLight = new THREE.AmbientLight( 0xffffff, 0.2 );
+		scene.add( ambientLight );
+
+		// Add a point light that will cast shadows
+		var pointLight = new THREE.PointLight( 0xffffff, 1 );
+		pointLight.position.set( 25, 50, 25 );
+		pointLight.castShadow = true;
+		pointLight.shadow.mapSize.width = 1024;
+		pointLight.shadow.mapSize.height = 1024;
+		scene.add( pointLight );
+
+		// A basic material that shows the geometry wireframe.
+		var shadowMaterial = new THREE.ShadowMaterial( { color: 0x000000 } );
+		shadowMaterial.opacity = 0.5;
+		var groundMesh = new THREE.Mesh(
+		    new THREE.BoxGeometry( 500, 0, 100 ),
+		   	shadowMaterial
+		);
+		groundMesh.receiveShadow = true;
+		scene.add( groundMesh );
+
+		var shapeOne = new THREE.Mesh(
+		    new THREE.OctahedronGeometry(10,1),
+		    new THREE.MeshStandardMaterial( {
+		        color: 0xff0051,
+		        shading: THREE.FlatShading ,
+		        metalness: 0,
+		        roughness: 0.8
+		    } )
+		);
+		shapeOne.position.y += 10;
+		shapeOne.rotateZ(Math.PI/3);
+		shapeOne.castShadow = true;
+		scene.add(shapeOne);
+
+		var shapeTwo = new THREE.Mesh(
+		    new THREE.OctahedronGeometry(5,1),
+		    new THREE.MeshStandardMaterial({
+		        color: 0x47689b,
+		        shading: THREE.FlatShading ,
+		        metalness: 0,
+		        roughness: 0.8
+		    })
+		);
+		shapeTwo.position.y += 5;
+		shapeTwo.position.x += 15;
+		shapeTwo.rotateZ(Math.PI/5);
+		shapeTwo.castShadow = true;
+		scene.add(shapeTwo);
+
+		var Decoration = function() {
+		    // Run the Group constructor with the given arguments
+		    THREE.Group.apply(this, arguments);
+		    // A random color assignment
+		    var colors = ['#ff0051', '#f56762','#a53c6c','#f19fa0','#72bdbf','#47689b'];
+
+		    // The main bauble is an Octahedron
+		    var bauble = new THREE.Mesh(
+		        addNoise(new THREE.OctahedronGeometry(12,1), 2),
+		        new THREE.MeshStandardMaterial( {
+		            color: colors[Math.floor(Math.random()*colors.length)],
+		            shading: THREE.FlatShading ,
+		            metalness: 0,
+		            roughness: 0.8,
+		            refractionRatio: 0.25
+		    } )
+		    );
+		    bauble.castShadow = true;
+		    bauble.receiveShadow = true;
+		    bauble.rotateZ(Math.random()*Math.PI*2);
+		    bauble.rotateY(Math.random()*Math.PI*2);
+		    this.add(bauble);
+
+		    // A cylinder to represent the top attachement
+		    var shapeOne = new THREE.Mesh(
+		        addNoise(new THREE.CylinderGeometry(4, 6, 10, 6, 1), 0.5),
+		        new THREE.MeshStandardMaterial( {
+		            color: 0xf8db08,
+		            shading: THREE.FlatShading ,
+		            metalness: 0,
+		            roughness: 0.8,
+		            refractionRatio: 0.25
+		        } )
+		    );
+		    shapeOne.position.y += 8;
+		    shapeOne.castShadow = true;
+		    shapeOne.receiveShadow = true;
+		    this.add(shapeOne);
+
+		    // A Torus to represent the top hook
+		    var shapeTwo = new THREE.Mesh(
+		        addNoise(new THREE.TorusGeometry( 2,1, 6, 4, Math.PI), 0.2),
+		        new THREE.MeshStandardMaterial( {
+		            color: 0xf8db08,
+		            shading: THREE.FlatShading ,
+		            metalness: 0,
+		            roughness: 0.8,
+		            refractionRatio: 0.25
+		        } )
+		    );
+		    shapeTwo.position.y += 13;
+		    shapeTwo.castShadow = true;
+		    shapeTwo.receiveShadow = true;
+		    this.add(shapeTwo);
+		};
+		Decoration.prototype = Object.create(THREE.Group.prototype);
+		Decoration.prototype.constructor = Decoration;
+
+
+		renderer.render(scene, camera);
+
+		var controls = new THREE.OrbitControls( camera, renderer.domElement );
+		// controls.addEventListener( 'change', function() { renderer.render(scene, camera); } );
+		
+		// controls.update();
+
+		function animate(){
+			requestAnimationFrame( animate );
+			// required if controls.enableDamping or controls.autoRotate are set to true
+			// controls.dampingFactor = 100
+			controls.autoRotate = true
+			controls.autoRotateSpeed = 1.5
+			controls.enableKeys = true
+			controls.keyPanSpeed = 30
+			controls.enableDamping = true
+			controls.enablePan = true
+			controls.enableZoom = true
+			controls.maxDistance = 100
+
+			controls.update();
+			renderer.render( scene, camera );
+		}
+		animate()
+	</script>
+</body>
+</html>

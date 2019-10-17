@@ -1,0 +1,131 @@
+<html>
+<head>
+    <title>threejs - geometry</title>
+
+    <style>
+    	body{
+    		margin: 0;
+    		overflow: hidden;
+    	}
+    </style>
+</head>
+<body>
+    <div style="background-color: white; text-align: center;">
+      <h2><a href="tugas3.html">LINK TUGAS "NAMA 3D"</a></h2>
+    </div>
+    <canvas id="myCanvas"></canvas>
+
+<script src="js/three.js"></script>
+<script src="https://cdn.rawgit.com/chandlerprall/ThreeCSG/master/ThreeCSG.js"></script>
+
+
+<script>
+    var renderer,
+    	scene,
+    	camera,
+    	myCanvas = document.getElementById('myCanvas');
+
+    //RENDERER
+    renderer = new THREE.WebGLRenderer({canvas: myCanvas, antialias: true});
+    renderer.setClearColor(0x000000);
+    // renderer.setClearColor(0xffffff);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    //CAMERA
+    camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 3000);
+
+    //SCENE
+    scene = new THREE.Scene();
+
+    var geometry1 = new THREE.PlaneGeometry(30, 30);  //PlaneGeometry(width, height, widthSegments, heightSegments)
+    var material = new THREE.MeshBasicMaterial({
+        color: 0xff00000
+    });
+    var mesh1 = new THREE.Mesh(geometry1, material);
+    mesh1.position.set(100,0,-300);
+    scene.add(mesh1);
+
+    var geometry = new THREE.BoxGeometry(100, 100, 100);
+    var material = new THREE.MeshNormalMaterial({color: 0xff00000});
+    var mesh0 = new THREE.Mesh(geometry, material);
+    mesh0.position.z = -1000;
+    scene.add(mesh0);
+
+    function randomColor() {
+        return `hsl(${rand(360) | 0}, ${rand(50, 100) | 0}%, 50%)`;
+    }
+
+    function rand(min, max) {
+        if (max === undefined) {
+            max = min;
+            min = 0;
+        }
+        return min + (max - min) * Math.random();
+    }
+
+    const numObjects = 100;
+    for (let i = 0; i < numObjects; ++i) {
+        // const material = new THREE.MeshPhongMaterial({
+        const material = new THREE.MeshNormalMaterial();
+
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        cube.position.set(rand(-20, 20), rand(-20, 20), rand(-20, 20));
+        cube.rotation.set(rand(Math.PI), rand(Math.PI), 0);
+        cube.scale.set(rand(3, 6), rand(3, 6), rand(3, 6));
+    }
+
+    var color = 0xFFFFFF;
+    var intensity = 1;
+    // const light = new THREE.DirectionalLight(color, intensity);
+    // light.position.set(0, 10, -4);
+    // scene.add(light);
+
+    const light2 = new THREE.DirectionalLight("#fcba03", intensity);
+    light2.position.set(0, -4, 4);
+    scene.add(light2);
+
+    const light3 = new THREE.DirectionalLight("#ad53d4", intensity);
+    light3.position.set(5, -4, 4);
+    scene.add(light3);
+    
+   
+    // renderer.shadowMap.enabled = true;
+    // renderer.shadowMap.type = THREE.PCFShadowMap;
+    
+    // var light = new THREE.SpotLight(0xffffff, 4.0, 3000);
+    // light.position.y = 100;
+    // light.target = mesh1;
+    
+    // light.castShadow = true;
+    // light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 100, 1, 500, 1000 ) );
+    // light.shadow.bias = 0.0001;    
+    // light.shadow.mapSize.width = 2048 * 2;
+    // light.shadow.mapSize.height = 2048 * 2;
+    // scene.add(light);
+    
+    // mesh1.castShadow = true;
+    // mesh3.receiveShadow = true;
+
+
+    //RENDER LOOP
+    render();
+
+    var delta = 0;
+    function render() {
+    	mesh0.rotation.x += 0.01;
+        mesh0.rotation.y -= 0.02;
+
+        mesh1.rotation.x += 0.01;
+        // mesh1.rotation.y += 0.01;
+
+    	renderer.render(scene, camera);
+
+    	requestAnimationFrame(render);
+    }
+
+    </script>
+</body>
+</html>

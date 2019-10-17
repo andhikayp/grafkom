@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<meta charset="UTF-8">
+    	<title>Tugas Grafika Komputer</title>
+    </head>
+    <body>
+    	<canvas id="canvas" width="1560px" height="300px">WebGL tidak didukung</canvas>
+        <canvas width = "900" height = "600" id = "my_Canvas"></canvas>
+
+    	<div style="font-size: 300pt">AYP</div>
+
+        <script>
+        	var canvas = document.getElementById('canvas');
+        	var ctx = canvas.getContext('2d');
+
+        	//Huruf A
+            ctx.beginPath();
+            ctx.moveTo(180, 45);
+            ctx.lineTo(115, 45);
+            ctx.lineTo(30, 275);
+            ctx.bezierCurveTo(15, 310, 0, 265, 10, 300)
+            // ctx.lineTo(10, 300);
+            ctx.lineTo(70, 300);
+            ctx.lineTo(105, 210);
+            ctx.lineTo(160, 210);
+            ctx.lineTo(200, 300);
+            ctx.lineTo(250, 300);
+            ctx.lineTo(155, 65);
+            // ctx.closePath();
+            // ctx.stroke();
+            var lingrad = ctx.createLinearGradient(0, 0, 0, 560);
+        	lingrad.addColorStop(0, '#00ABEB');
+        	lingrad.addColorStop(0.5, '#fff');
+        	lingrad.addColorStop(0.5, '#3240a8');
+        	lingrad.addColorStop(1, '#fff');
+
+            ctx.fillStyle = lingrad;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(130, 110);
+            ctx.lineTo(110, 175);
+            ctx.lineTo(155, 175);
+            // ctx.closePath();
+            // ctx.stroke();
+            ctx.fillStyle = 'white';
+            ctx.fill();
+
+            //Huruf Y
+            ctx.beginPath();
+            ctx.moveTo(300, 45);
+            ctx.lineTo(250, 45);
+            ctx.lineTo(350, 180);
+            ctx.lineTo(350, 300);
+            ctx.lineTo(390, 300);
+            ctx.lineTo(390, 180);
+            ctx.lineTo(490, 45);
+            ctx.lineTo(440, 45);
+            ctx.lineTo(370, 140);
+            // ctx.closePath();
+            // ctx.stroke();
+            var lingrad = ctx.createLinearGradient(0, 0, 0, 560);
+        	lingrad.addColorStop(0, '#00ABEB');
+        	lingrad.addColorStop(0.5, '#fff');
+        	lingrad.addColorStop(0.5, '#3240a8');
+        	lingrad.addColorStop(1, '#fff');
+            ctx.fillStyle = lingrad;
+            ctx.fill();
+
+            //Huruf P
+            ctx.beginPath();
+            ctx.moveTo(590, 45);
+            ctx.lineTo(550, 45);
+            ctx.lineTo(550, 300);
+            ctx.lineTo(590, 300);
+            ctx.lineTo(590, 180);
+            ctx.bezierCurveTo(750, 180, 750, 50, 590, 45)
+            // ctx.closePath();
+            // ctx.stroke();
+            var lingrad = ctx.createLinearGradient(0, 0, 0, 560);
+        	lingrad.addColorStop(0, '#00ABEB');
+        	lingrad.addColorStop(0.5, '#fff');
+        	lingrad.addColorStop(0.5, '#3240a8');
+        	lingrad.addColorStop(1, '#fff');
+            ctx.fillStyle = lingrad;
+            // ctx.fillStyle = 'orange';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.moveTo(590, 145);
+            ctx.lineTo(590, 80);
+            ctx.bezierCurveTo(700, 180, 700, 60, 590, 145)
+            // ctx.closePath();
+            // ctx.stroke();
+            ctx.fillStyle = 'white';
+            ctx.fill();
+        </script>
+        <script>
+             /* Step1: Prepare the canvas and get WebGL context */
+
+             var canvas = document.getElementById('my_Canvas');
+             var gl = canvas.getContext('experimental-webgl');
+
+             /* Step2: Define the geometry and store it in buffer objects */
+                
+             var vertices = [
+                -0.78,-0.1, 
+                -0.6,0.5, 
+                -0.42,-0.1,
+                 
+                -0.9,-0.5,
+                -0.78,-0.1, 
+                -0.78,-0.5,
+                 
+                -0.66,-0.1,
+                -0.78,-0.1, 
+                -0.78,-0.5,
+                 
+                -0.42,-0.1,
+                -0.42,-0.5, 
+                -0.30,-0.5,
+                 
+                -0.42,-0.1,
+                -0.42,-0.5, 
+                -0.54,-0.1,
+                 
+                -0.30,0.5,
+                -0.18,0.5, 
+                0.0,-0.1,
+                 
+                0.12,-0.1,
+                -0.18,0.5, 
+                0.0,-0.1,
+                 
+                0.12,-0.1,
+                0.3,0.5, 
+                0.0,-0.1,
+                 
+                0.12,-0.1,
+                0.3,0.5, 
+                0.42,0.5,
+                 
+                0.12,-0.1,
+                0.0,-0.5, 
+                0.0,-0.1,
+                 
+                0.12,-0.1,
+                0.12,-0.5, 
+                0.0,-0.5,
+                 
+                0.52,-0.5,
+                0.64,0.5, 
+                0.52,0.5,
+                 
+                0.52,-0.5,
+                0.64,0.5, 
+                0.64,-0.5,
+                 
+                0.90,-0.1,
+                0.64,0.5, 
+                0.64,-0.1,
+                 
+                0.90,-0.1,
+                0.64,0.5, 
+                0.90,0.5,
+             ];
+
+             // Create a new buffer object
+             var vertex_buffer = gl.createBuffer();
+
+             // Bind an empty array buffer to it
+             gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+             
+             // Pass the vertices data to the buffer
+             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+
+             // Unbind the buffer
+             gl.bindBuffer(gl.ARRAY_BUFFER, null);
+
+             /* Step3: Create and compile Shader programs */
+
+             // Vertex shader source code
+             var vertCode =
+                'attribute vec2 coordinates;' + 
+                'void main(void) {' + ' gl_Position = vec4(coordinates,0.0, 1.0);' + '}';
+
+             //Create a vertex shader object
+             var vertShader = gl.createShader(gl.VERTEX_SHADER);
+
+             //Attach vertex shader source code
+             gl.shaderSource(vertShader, vertCode);
+
+             //Compile the vertex shader
+             gl.compileShader(vertShader);
+
+             //Fragment shader source code
+             var fragCode = 'void main(void) {' + 'gl_FragColor = vec4(0.3, 0.0, 0.0, 0.7);' + '}';
+
+             // Create fragment shader object
+             var fragShader = gl.createShader(gl.FRAGMENT_SHADER);
+
+             // Attach fragment shader source code
+             gl.shaderSource(fragShader, fragCode);
+
+             // Compile the fragment shader
+             gl.compileShader(fragShader);
+
+             // Create a shader program object to store combined shader program
+             var shaderProgram = gl.createProgram();
+
+             // Attach a vertex shader
+             gl.attachShader(shaderProgram, vertShader); 
+             
+             // Attach a fragment shader
+             gl.attachShader(shaderProgram, fragShader);
+
+             // Link both programs
+             gl.linkProgram(shaderProgram);
+
+             // Use the combined shader program object
+             gl.useProgram(shaderProgram);
+
+             /* Step 4: Associate the shader programs to buffer objects */
+
+             //Bind vertex buffer object
+             gl.bindBuffer(gl.ARRAY_BUFFER, vertex_buffer);
+
+             //Get the attribute location
+             var coord = gl.getAttribLocation(shaderProgram, "coordinates");
+
+             //point an attribute to the currently bound VBO
+             gl.vertexAttribPointer(coord, 2, gl.FLOAT, false, 0, 0);
+
+             //Enable the attribute
+             gl.enableVertexAttribArray(coord);
+
+             /* Step5: Drawing the required object (triangle) */
+
+             // Clear the canvas
+             gl.clearColor(0.6, 0.9, 0.8, 0.5);
+
+             // Enable the depth test
+             gl.enable(gl.DEPTH_TEST); 
+             
+             // Clear the color buffer bit
+             gl.clear(gl.COLOR_BUFFER_BIT);
+
+             // Set the view port
+             gl.viewport(0,0,canvas.width,canvas.height);
+
+             // Draw the triangle
+             gl.drawArrays(gl.TRIANGLES, 0, 45);
+        </script>
+    </body>
+</html>

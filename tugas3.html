@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>threejs - geometry</title>
+    <meta charset="UTF-8">
+    <style>
+    	body{
+    		margin: 0;
+    		overflow: hidden;
+    	}
+    </style>
+</head>
+<body>
+    <div style="background-color: white; text-align: center;">
+      <h1>Andhika Yoga Perdana</h1>
+      <h1>05111740000101</h1>
+      <h2><a href="tugas3geometry.html">Link Tugas "Geometri"</a></h2>
+    </div>
+    <canvas id="myCanvas"></canvas>
+<script src="js/three.js"></script>
+<script src="js/font2.js"></script>
+<script src="https://cdn.rawgit.com/chandlerprall/ThreeCSG/master/ThreeCSG.js"></script>
+
+<script>
+    var renderer, scene, camera, myCanvas = document.getElementById('myCanvas');
+
+    //RENDERER
+    renderer = new THREE.WebGLRenderer({
+      canvas: myCanvas, 
+      antialias: true
+    });
+    // document.body.appendChild( renderer.domElement );
+    // renderer.setClearColor(0x2283785);
+    renderer.setClearColor("#0e2d61");
+    // renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(1);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    //CAMERA
+    camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 2000, 3000);
+    camera.position.set(0,-100,-10);
+    //SCENE
+    scene = new THREE.Scene();
+
+    //LIGHTS
+    var light = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(light);
+
+    var light2 = new THREE.PointLight(0xffffff, 0.5);
+    scene.add(light2);
+
+    var loader = new THREE.FontLoader();
+    var font = loader.parse(fontJSON);
+    var geometry = new THREE.TextGeometry("A Y P", {
+      font: font, 
+      size: 200, 
+      height: 70, 
+      material: 0, 
+      bevelThickness: 1, 
+      extrudeMaterial: 1,
+      curveSegments: 12,
+      bevelEnabled: true,
+      bevelThickness: 5,
+      bevelSize: 5,
+      bevelOffset: 0,
+      bevelSegments: 5
+    });  
+
+    // var material = new THREE.MeshLambertMaterial({color: 0xF3FFE2});
+    var material = new THREE.MeshNormalMaterial();
+    var mesh = new THREE.Mesh(geometry, material);
+    // mesh.position.z = -2500;
+    // mesh.position.x = -300;
+    // mesh.position.y = -100;
+    mesh.position.set(-300,-100,-2500)
+
+    scene.add(mesh);
+
+
+    //RENDER
+    render();
+
+    function render() {
+    	mesh.rotation.x += 0.01;
+    	mesh.rotation.y += 0.03;
+      console.log(mesh.rotation.x, mesh.rotation.y);
+    	renderer.render(scene, camera);
+    	requestAnimationFrame(render);
+    }
+
+    </script>
+</body>
+</html>

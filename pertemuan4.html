@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="c"></canvas>
+	<script src="https://threejsfundamentals.org/threejs/resources/threejs/r108/three.min.js"></script>
+	<script>
+	'use strict';
+	 
+	/* global THREE */
+
+	function main() {
+	  	const canvas = document.querySelector('#c');
+	  	const renderer = new THREE.WebGLRenderer({canvas});
+    	// renderer.setSize(window.innerWidth, window.innerHeight);
+    	renderer.setSize(window.innerWidth, window.innerHeight);
+   	 	renderer.setClearColor("#0e2d61");
+
+
+	  	const fov = 100;
+		const aspect = 2;
+		const near = 0.1;
+		const far = 300;
+		const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+		camera.position.z = 2;
+
+		const scene = new THREE.Scene();
+
+		const boxWidth = 1;
+		const boxHeight = 1;
+		const boxDepth = 1;
+		const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+		// const material = new THREE.MeshBasicMaterial({color: 0x44aa88});
+		const material = new THREE.MeshPhongMaterial({color: 0x44aa88});
+
+		function makeInstance(geometry, color, x) {
+		  const material = new THREE.MeshPhongMaterial({color});
+		 
+		  const cube = new THREE.Mesh(geometry, material);
+		  scene.add(cube);
+		 
+		  cube.position.x = x;
+		 
+		  return cube;
+		}
+
+		const cubes = [
+		  makeInstance(geometry, 0x44aa88,  0),
+		  makeInstance(geometry, 0x8844aa, -2),
+		  makeInstance(geometry, 0xaa8844,  2),
+		];
+		// const cube = new THREE.Mesh(geometry, material);
+		// scene.add(cube);
+
+		const color = 0xFFFFFF;
+		const intensity = 1;
+		const light = new THREE.DirectionalLight(color, intensity);
+		light.position.set(0, 10, -4);
+		scene.add(light);
+
+		const light2 = new THREE.DirectionalLight("#fcba03", intensity);
+		light2.position.set(0, -4, 4);
+		scene.add(light2);
+
+		const light3 = new THREE.DirectionalLight("#ad53d4", intensity);
+		light3.position.set(5, -4, 4);
+		scene.add(light3);
+
+		function render(time) {
+		  	time *= 0.001;  // convert time to seconds
+		 
+		  	// cube.rotation.x = time;
+		  	// cube.rotation.y = time;
+		  	cubes.forEach((cube, ndx) => {
+		  		// console.log(ndx);
+		    	if (ndx == 0) {
+		    		const speed = 1 + ndx * 1;
+			    	const rot = time;
+			    	cube.rotation.x = rot;
+			    	// cube.rotation.y = rot;
+		    	}
+		    	else {
+		    		const speed = 1 + ndx * 1;
+			    	const rot = time * speed * 5;
+			    	// cube.rotation.x = rot;
+			    	// cube.rotation.y = rot;
+			    	cube.rotation.x += 0.01;
+			    	cube.rotation.y = rot;
+		    	}
+		  	});
+		 
+		  	renderer.render(scene, camera);
+		 
+		  	requestAnimationFrame(render);
+		}
+		render();
+		// requestAnimationFrame(render);
+	}
+
+	main();
+	</script>
+</body>
+</html>
