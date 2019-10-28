@@ -5,6 +5,7 @@ function main() {
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
+
   const fov = 60;
   const aspect = 2;  // the canvas default
   const near = 0.1;
