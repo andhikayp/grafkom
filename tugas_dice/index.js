@@ -1,16 +1,24 @@
-function role () {
+function role() {
+    var nameValue = document.getElementById("inputCount").value;
+    // console.log(nameValue);
     $('canvas').remove();
-    execute_dice ();
+    // for(var i = 0; i < nameValue; i++){
+    //     console.log("wkwk");
+    //     execute_dice (i);
+    // }
+    execute_dice (nameValue);
 }
 
-function execute_dice () {
+function execute_dice (i) {
     var scene = new THREE.Scene();
     scene.background = new THREE.Color('white');
 
     var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
      
     var renderer = new THREE.WebGLRenderer();
+    renderer.domElement.id = i;
     renderer.setSize( window.innerWidth, window.innerHeight );
+    // renderer.setSize( 300, 400 );
     document.body.appendChild( renderer.domElement );
     camera.position.set(0,0,80);
 
@@ -89,19 +97,28 @@ function execute_dice () {
 
         controls.update();
     };
-
     function render() {
         default_value++;
         // console.log(default_value, randomness);
-        if (default_value <= randomness) {
+        if (default_value < randomness) {
             obj.rotation.x += Math.PI/2;
             // obj.rotation.y += Math.PI*3/2;
             obj.rotation.y += 1;
-            // obj.rotation.z += Math.PI/2;
+            // console.log(obj.rotation.y);
+            // 1.5707963267948965
+            // obj.rotation.y += Math.PI/2;
         }
+        else if (default_value == randomness) {
+            now = obj.rotation.y;
+            bulat = now / (Math.PI/2);
+            rotasi = (Math.ceil(bulat))*(Math.PI/2) - (now);
+
+            obj.rotation.y += rotasi;
+        }
+        // else return;
         // obj.rotation.x += (0.2*(Math.PI / 180));
         // obj.rotation.x %=360;
-        console.log(obj.rotation.x);
+        // console.log(obj.rotation.x);
         renderer.render( scene, camera );
     }
     animate();
