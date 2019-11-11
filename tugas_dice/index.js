@@ -39,15 +39,17 @@ function execute_dice (i) {
     keyLight.position.set(100, 0, 50);
     scene.add(fromLight);
 
+    var object_obj = 'dice.obj';
+    var object_mtl = 'dice.mtl';   
     var mtlLoader = new THREE.MTLLoader();
     mtlLoader.setTexturePath('./assets/');
     mtlLoader.setPath('./assets/');
-    mtlLoader.load('dice.mtl', function (materials) {
+    mtlLoader.load(object_mtl, function (materials) {
         materials.preload();
         var objLoader = new THREE.OBJLoader();
         objLoader.setMaterials(materials);
         objLoader.setPath('./assets/');
-        objLoader.load('dice.obj', function (object) {
+        objLoader.load(object_obj, function (object) {
 
             obj = object;
             // object.scale.set(10, 10, 10);
